@@ -15,8 +15,8 @@ jobs:
     strategy:
       matrix:
         go:
-          - 1.19
-          - 1.20
+          - "1.19"
+          - "1.20"
         os:
           - linux
           - darwin
@@ -43,4 +43,4 @@ jobs:
 
       - name: Run build
         run: |
-          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }}
+          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build .
