@@ -1,0 +1,46 @@
+name: build-multi-arch
+
+on:
+  push:
+    branches:
+      - main
+      - build-multi-arch
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  single-node:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go:
+          - 1.19
+          - 1.20
+        os:
+          - linux
+          - darwin
+          - dragonfly
+          - freebsd
+          - netbsd
+          - openbsd
+          - solaris
+          - illumos
+          - windows
+        arch:
+          - 386
+          - amd64
+          - arm
+          - arm64
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Install Go ${{ matrix.go }}
+        uses: actions/setup-go@v3
+        with:
+          stable: false
+          go-version: ${{ matrix.go }}
+
+      - name: Run build
+        run: |
+          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }}
